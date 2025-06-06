@@ -8,20 +8,28 @@ from utils import verify_signature, format_time
 
 app = Flask(__name__)
 CORS(app)
+
+
+
 # ---------- Webhook endpoint ----------
-#for Icon
+#for Icon need for ngrok server
 @app.route('/favicon.ico')
+#favicon refer to static folder
 def favicon():
     return '', 204  # No Content
 
 
+
+#/webhook get methods for ngrok server listening post events other wise give error 500
 @app.route("/webhook", methods=["GET"])
 def webhook_status():
     return jsonify({"status": "listening for GitHub POST events"}), 200
 
+
+#github post push,pull request 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    # 1. Verify signature
+    # 1. Verify signature, describe in utils.py
     if not verify_signature(request):
         abort(401, description="Invalid signature")
 
@@ -63,7 +71,7 @@ def handle_pr(payload):
     timestamp = format_time()
 
     if action in ("opened", "reopened"):
-        # PULL_REQUEST event
+        # PULL_REQUEST event....................
         doc = {
             "type": "pull_request",
             "author": author,
@@ -76,7 +84,7 @@ def handle_pr(payload):
         collection.insert_one(doc)
 
     elif action == "closed" and pr.get("merged"):
-        # MERGE (brownie points)
+        # MERGE (brownie points).........................
         doc = {
             "type": "merge",
             "author": author,
@@ -89,7 +97,7 @@ def handle_pr(payload):
         collection.insert_one(doc)
 
 
-# ---------- API for the UI ----------
+# ---------- API for the UI ---------- give output React UI
 @app.route("/events/latest", methods=["GET"])
 def latest_events():
     """
@@ -106,6 +114,8 @@ def latest_events():
 
 
 # ---------- Convenience ----------
+
+
 @app.route("/", methods=["GET"])
 def health():
     return {"status": "ok"}, 200

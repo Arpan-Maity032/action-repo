@@ -1,4 +1,7 @@
 Flask==3.0.3
 pymongo==4.7.1
 python-dotenv==1.0.1
+#for cross origin request
 flask-cors
+#Python library that allows you to work with time zones
+pytz
