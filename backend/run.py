@@ -9,6 +9,16 @@ from utils import verify_signature, format_time
 app = Flask(__name__)
 CORS(app)
 # ---------- Webhook endpoint ----------
+#for Icon
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204  # No Content
+
+
+@app.route("/webhook", methods=["GET"])
+def webhook_status():
+    return jsonify({"status": "listening for GitHub POST events"}), 200
+
 @app.route("/webhook", methods=["POST"])
 def webhook():
     # 1. Verify signature

@@ -20,4 +20,4 @@ def format_time(dt: datetime | None = None) -> str:
     """`1st April 2021 - 9:30 PM UTC` format."""
     if dt is None:
         dt = datetime.now(timezone.utc)
-    return dt.strftime("%-d %B %Y - %-I:%M %p UTC")
+    return dt.strftime("%#d %B %Y - %#I:%M %p UTC")
