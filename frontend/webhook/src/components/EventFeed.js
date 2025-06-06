@@ -31,8 +31,8 @@ const EventFeed = () => {
 
         fetchEvents();
         
-        // Optional: Set up polling to refresh data every 30 seconds
-        const intervalId = setInterval(fetchEvents, 30000);
+        // Optional: Set up polling to refresh data every 15 seconds
+        const intervalId = setInterval(fetchEvents, 15000);
 
         // Cleanup function to clear the interval when the component unmounts
         return () => clearInterval(intervalId);
